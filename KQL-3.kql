@@ -1,0 +1,54 @@
+﻿--
+SELECT top(10) * FROM StormEvents st
+LEFT JOIN PopulationData pd ON st.State = pd.State
+WHERE EventType = 'Thunderstorm Wind' or EventType = 'Hail'
+ORDER by StartTime desc;
+
+StormEvents
+| join kind = leftouter PopulationData on State
+//| top 10 by StartTime
+//| order by StartTime desc
+| where EventType == "Thunderstorm Wind" or EventType == "Hail"
+| top 10 by StartTime
+//| project State="Niedersachen", StartTime=now()
+//| count
+
+StormEvents
+| summarize e_count=count(EventType) by EventType
+| order by e_count desc
+
+--
+SELECT EventType, count(EventType) as e_count FROM StormEvents st
+GROUP BY EventType
+ORDER BY e_count desc
+
+--
+SELECT * FROM StormEvents st
+LEFT JOIN PopulationData pd ON st.State = pd.State
+WHERE EventType = 'Thunderstorm Wind' or EventType = 'Hail'
+ORDER by StartTime desc;
+
+--
+SELECT * FROM StormEvents st
+LEFT JOIN PopulationData pd ON st.State = pd.State
+WHERE EventType = 'Hail'
+ORDER by StartTime desc;
+
+
+StormEvents
+| where EventType == "Thunderstorm Wind" or EventType == "Hail"
+| order by StartTime desc
+| join kind = leftouter PopulationData on State
+
+
+StormEvents
+| where EventType == "Hail"
+| order by StartTime desc
+| join kind = leftouter PopulationData on State
+
+
+StormEvents
+| where EventType == "Thunderstorm Wind"
+//| where EventType == "Hail"
+| order by StartTime desc
+| join kind = leftouter PopulationData on State
